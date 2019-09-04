@@ -5,7 +5,7 @@ from ask_sdk_core.utils import is_request_type
 from ask_sdk_model.dialog import DynamicEntitiesDirective
 from ask_sdk_model.er.dynamic import update_behavior, entity, EntityValueAndSynonyms, EntityListItem
 import pickle
-from nextbus_utils.NextBusTimeHandlers import NextBusIntenthandlerDefaults
+from nextbus_utils.NextBusTimeHandlers import NextBusDefaultsHandler
 from nextbus_utils.SetDefaultHandlers import SetDefaultsHandlerStart, SetDefaultsHandlerInProgressRoute, \
     SetDefaultsHandlerInProgressStopName, SetDefaultsHandlerInProgressStopNameDenied, \
     SetDefaultsHandlerInProgressStopNameConfirmed, SetDefaultsHandlerCompleted
@@ -51,5 +51,5 @@ sb.add_request_handler(SetDefaultsHandlerInProgressStopName())
 sb.add_request_handler(SetDefaultsHandlerInProgressStopNameDenied())
 sb.add_request_handler(SetDefaultsHandlerInProgressStopNameConfirmed())
 sb.add_request_handler(SetDefaultsHandlerCompleted())
-sb.add_request_handler(NextBusIntenthandlerDefaults())
+sb.add_request_handler(NextBusDefaultsHandler())
 lambda_handler = sb.lambda_handler()

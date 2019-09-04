@@ -3,7 +3,7 @@ from ask_sdk_core.dispatch_components import AbstractRequestHandler
 from ask_sdk_core.utils import is_request_type, is_intent_name, get_slot_value
 
 
-class NextBusIntenthandlerDefaults(AbstractRequestHandler):
+class NextBusDefaultsHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return is_request_type('IntentRequest')(handler_input) and is_intent_name('NextBusIntent')(
             handler_input) and not get_slot_value(handler_input, 'RouteNumber') and not get_slot_value(handler_input,
