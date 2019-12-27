@@ -5,10 +5,13 @@ from ask_sdk_core.utils import is_request_type
 from ask_sdk_model.dialog import DynamicEntitiesDirective
 from ask_sdk_model.er.dynamic import update_behavior, entity, EntityValueAndSynonyms, EntityListItem
 import pickle
+
+from ask_sdk_model.ui import Card
 from nextbus_utils.NextBusTimeHandlers import NextBusDefaultsHandler
 from nextbus_utils.SetDefaultHandlers import SetDefaultsHandlerStart, SetDefaultsHandlerInProgressRoute, \
     SetDefaultsHandlerInProgressStopName, SetDefaultsHandlerInProgressStopNameDenied, \
-    SetDefaultsHandlerInProgressStopNameConfirmed, SetDefaultsHandlerCompleted
+    SetDefaultsHandlerInProgressStopNameConfirmed, SetDefaultsHandlerCompleted, \
+    SetDefaultsHandlerInProgressIntentConfirmationDenied, SetDefaultsHandlerInProgressIntentConfirmationConfirmed
 
 sb = StandardSkillBuilder(table_name="NextBus", auto_create_table=True)
 
@@ -21,7 +24,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
         entities = bus_names_entity_creator()
         directive = DynamicEntitiesDirective(update_behavior=update_behavior.UpdateBehavior.REPLACE,
                                              types=[EntityListItem(name="BusRouteName", values=entities)])
-        return handler_input.response_builder.speak("Welcome to next bus").add_directive(
+        message = "Welcome to your personal Nextbus. To set defaults, say Alexa, ask my next bus to set defaults"
+        return handler_input.response_builder.speak(message).add_directive(
             directive).set_should_end_session(False).response
 
 
@@ -50,6 +54,8 @@ sb.add_request_handler(SetDefaultsHandlerInProgressRoute())
 sb.add_request_handler(SetDefaultsHandlerInProgressStopName())
 sb.add_request_handler(SetDefaultsHandlerInProgressStopNameDenied())
 sb.add_request_handler(SetDefaultsHandlerInProgressStopNameConfirmed())
+sb.add_request_handler(SetDefaultsHandlerInProgressIntentConfirmationDenied())
+sb.add_request_handler(SetDefaultsHandlerInProgressIntentConfirmationConfirmed())
 sb.add_request_handler(SetDefaultsHandlerCompleted())
 sb.add_request_handler(NextBusDefaultsHandler())
 lambda_handler = sb.lambda_handler()
